@@ -36,8 +36,8 @@ def configure_service(service_id, json_body):
     uniconfig_api = UniconfigManagerApi(api_client)
     commit_nodes = UniconfigManagerCalculatediffInputTargetnodes([node1_name, node2_name])
     commit_input = UniconfigManagerCommitInput(target_nodes=commit_nodes)
-    uniconfig_api.rpc_uniconfig_manager_commit(UniconfigManagerCommitInputBodyparam(commit_input))
-
+    commit_response = uniconfig_api.rpc_uniconfig_manager_commit(UniconfigManagerCommitInputBodyparam(commit_input))
+    return str(commit_response)
 
 def add_port_to_bundle(node_id, bundle_id, port):
     bundle_ifc_name = 'Bundle-Ether' + bundle_id
@@ -78,6 +78,8 @@ def create_bundle(node_id, bundle_id):
 @app.route('/service/<service_id>', methods=['POST'])
 def service(service_id):
     if request.method == 'POST':
+        #return configure_service(service_id, request.get_json())
         return configure_service(service_id, request.get_json())
+
 
 
