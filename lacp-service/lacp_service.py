@@ -3,6 +3,7 @@ from flask import request
 from swagger_uniconfig import FrinxOpenconfigInterfacesApi, FrinxOpenconfigIfEthernetEthernettopEthernetConfig, \
     FrinxOpenconfigIfEthernetApi, UniconfigManagerApi, Configuration, ApiClient, \
     FrinxOpenconfigInterfacesInterfacestopInterfacesInterface, UniconfigManagerCalculatediffInputTargetnodes, \
+    UniconfigManagerSyncfromnetworkInput, UniconfigManagerSyncfromnetworkInputBodyparam, \
     UniconfigManagerCommitInput, UniconfigManagerCommitInputBodyparam, \
     FrinxOpenconfigInterfacesInterfacestopInterfacesInterfaceConfig, FrinxOpenconfigInterfacesTypeIdentityref, \
     FrinxOpenconfigIfEthernetEthernettopEthernet
@@ -34,9 +35,16 @@ def configure_service(service_id, json_body):
     add_ports_to_bundle(node2_name, bundle_id, node2_ports)
 
     uniconfig_api = UniconfigManagerApi(api_client)
+
+    sync_nodes = UniconfigManagerCalculatediffInputTargetnodes([node1_name, node2_name])
+    sync_input = UniconfigManagerSyncfromnetworkInput(target_nodes=sync_nodes)
+    sync_response = uniconfig_api.rpc_uniconfig_manager_sync_from_network(UniconfigManagerSyncfromnetworkInputBodyparam(sync_input))
+    print(sync_response)
+
     commit_nodes = UniconfigManagerCalculatediffInputTargetnodes([node1_name, node2_name])
     commit_input = UniconfigManagerCommitInput(target_nodes=commit_nodes)
     commit_response = uniconfig_api.rpc_uniconfig_manager_commit(UniconfigManagerCommitInputBodyparam(commit_input))
+    print(commit_response)
     return str(commit_response)
 
 def add_port_to_bundle(node_id, bundle_id, port):
