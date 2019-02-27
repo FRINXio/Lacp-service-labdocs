@@ -49,8 +49,10 @@ Application lacp_service.py exposes really simple and straightforward REST API.
 To provision new LACP service, issue simple POST request:
 
 ```
-POST http://127.0.0.1:5000/service/new-service
-{
+curl -X POST \
+  http://127.0.0.1:5000/service/new-service \
+  -H 'Content-Type: application/json' \
+  -d '{
     "node1": {
         "name": "xr5",
         "bundle": "122",
@@ -68,6 +70,7 @@ POST http://127.0.0.1:5000/service/new-service
         ]
     }
 }
+'
 ```
 
 The configuration speaks for itself. This bundles GigabitEthernet0/0/0/1 and GigabitEthernet0/0/0/3 interfaces into new bundle with id 122 on node1 and similiarly on other node. 
